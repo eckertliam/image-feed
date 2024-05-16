@@ -1,0 +1,10 @@
+{
+  "name": "api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+  },
+  "author": "Liam Eckert",
+  "license": "Apache-2.0"
+}

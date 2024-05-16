@@ -1,0 +1,17 @@
+{
+  "name": "image-feed",
+  "version": "0.0.1",
+  "description": "An image feed application",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eckertliam/image-feed.git"
+  },
+  "author": "Liam Eckert",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/eckertliam/image-feed/issues"
+  },
+  "homepage": "https://github.com/eckertliam/image-feed#readme"
+}
