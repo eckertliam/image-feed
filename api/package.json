@@ -1,10 +1,23 @@
 {
   "name": "api",
   "version": "0.0.1",
-  "description": "",
-  "main": "main.js",
+  "description": "image feed api",
+  "main": "build/index",
   "scripts": {
+    "build": "tsc",
+    "start": "npm run build && build/index.js",
+    "dev": "npx nodemon"
   },
   "author": "Liam Eckert",
-  "license": "Apache-2.0"
+  "dependencies": {
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/mysql": "^2.15.26",
+    "@types/node": "^20.12.12",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
 }

@@ -2,8 +2,7 @@
   "name": "image-feed",
   "version": "0.0.1",
   "description": "An image feed application",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eckertliam/image-feed.git"
@@ -13,5 +12,9 @@
   "bugs": {
     "url": "https://github.com/eckertliam/image-feed/issues"
   },
-  "homepage": "https://github.com/eckertliam/image-feed#readme"
+  "homepage": "https://github.com/eckertliam/image-feed#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
 }
