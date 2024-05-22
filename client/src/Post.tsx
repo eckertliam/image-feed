@@ -1,26 +1,28 @@
 import React, { useState, useContext } from "react";
 import { SetApp } from "./App";
+import getFingerprint from "./fingerprint";
 
 interface UploadState {
     image: File;
-    description: string;
+    caption: string;
 }
 
-export default function Upload(): JSX.Element {
+export default function Post(): JSX.Element {
     const setApp = useContext(SetApp);
     const [uploadState, setUploadState] = useState<UploadState>({
         image: new File([], ''), 
-        description: ''
+        caption: ''
     });
 
     async function sendPost(event: React.FormEvent<HTMLFormElement>): Promise<void> {
         event.preventDefault();
         const formData = new FormData();
         formData.append('image', uploadState.image);
-        formData.append('description', uploadState.description);
-        const response = await fetch('/api/upload', {
+        formData.append('caption', uploadState.caption);
+        formData.append('fingerprint', (await getFingerprint()).toString());
+        const response = await fetch('http://localhost:8080/api/post', {
             method: 'POST',
-            body: formData,
+            body: formData
         });
         if (response.status === 200) {
             setApp({currentPage: <h1>Upload successful</h1>});
@@ -33,14 +35,14 @@ export default function Upload(): JSX.Element {
 
     return (
         <React.StrictMode>
-            <h1>Upload</h1>
+            <h1>Post</h1>
             <form onSubmit={sendPost}>
                 <input type="file" name="image" accept="image/*" required onChange={
                     (event: React.ChangeEvent<HTMLInputElement>) => {
                         if (event.target.files) {
                             setUploadState({
                                 image: event.target.files[0],
-                                description: uploadState.description,
+                                caption: uploadState.caption,
                             });
                         }
                     }
@@ -49,7 +51,7 @@ export default function Upload(): JSX.Element {
                     (event: React.ChangeEvent<HTMLInputElement>) => {
                         setUploadState({
                             image: uploadState.image,
-                            description: event.target.value,
+                            caption: event.target.value,
                         });
                     }
                 

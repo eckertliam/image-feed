@@ -29,7 +29,7 @@ CREATE TABLE posts (
 CREATE TABLE images (
     image_id INT AUTO_INCREMENT PRIMARY KEY,
     post_id INT NOT NULL,
-    image_name VARCHAR(32) NOT NULL,
+    image_name VARCHAR(32) NOT NULL UNIQUE,
     FOREIGN KEY (post_id) REFERENCES posts(post_id)
 );
 
