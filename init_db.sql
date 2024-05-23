@@ -9,21 +9,21 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE usernames (
-    username_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    username VARCHAR(32) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
 CREATE TABLE posts (
     post_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     caption VARCHAR(255),
-    username_id INT DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (username_id) REFERENCES usernames(username_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE usernames (
+    username_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    username VARCHAR(32) NOT NULL,
+    post_id INT NOT NULL,
+    FOREIGN KEY (post_id) REFERENCES posts(post_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE images (

@@ -1,63 +1,40 @@
-import React, { useState, useContext } from "react";
-import { SetApp } from "./App";
-import getFingerprint from "./fingerprint";
+import React, {useState} from "react";
 
-interface UploadState {
-    image: File;
+export interface PostProps {
+    images: string[];
+    username: string;
+    sign: string;
     caption: string;
 }
 
-export default function Post(): JSX.Element {
-    const setApp = useContext(SetApp);
-    const [uploadState, setUploadState] = useState<UploadState>({
-        image: new File([], ''), 
-        caption: ''
-    });
 
-    async function sendPost(event: React.FormEvent<HTMLFormElement>): Promise<void> {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append('image', uploadState.image);
-        formData.append('caption', uploadState.caption);
-        formData.append('fingerprint', (await getFingerprint()).toString());
-        const response = await fetch('http://localhost:8080/api/post', {
-            method: 'POST',
-            body: formData
-        });
-        if (response.status === 200) {
-            setApp({currentPage: <h1>Upload successful</h1>});
-        } else if (response.status === 403) {
-            setApp({currentPage: <h1>You have been banned.</h1>});
-        } else if (response.status === 404) {
-            setApp({currentPage: <h1>Unavailable</h1>});
+// images encoded as base64 strings
+export default function Post({ images, username, sign, caption }: {images: string[], username: string, sign: string, caption: string}): JSX.Element {
+    const [idx, setIdx] = useState<number>(0);
+    
+    const getImage = () => {
+        const image = images[idx];
+        if (image === undefined) {
+            return '';
         }
+        return image;
     }
 
     return (
-        <React.StrictMode>
-            <h1>Post</h1>
-            <form onSubmit={sendPost}>
-                <input type="file" name="image" accept="image/*" required onChange={
-                    (event: React.ChangeEvent<HTMLInputElement>) => {
-                        if (event.target.files) {
-                            setUploadState({
-                                image: event.target.files[0],
-                                caption: uploadState.caption,
-                            });
-                        }
-                    }
-                }/>
-                <input type="text" name="description" required onChange={
-                    (event: React.ChangeEvent<HTMLInputElement>) => {
-                        setUploadState({
-                            image: uploadState.image,
-                            caption: event.target.value,
-                        });
-                    }
-                
-                }/>
-                <button type="submit">Upload</button>
-            </form>
-        </React.StrictMode>
+        <div className="post">
+            <img src={`data:image/png;base64,${getImage()}`} alt="post"/>
+            <button onClick={() => {
+                if (idx < images.length - 1) {
+                    setIdx(idx + 1);
+                }
+            }}>Next</button>
+            <button onClick={() => {
+                if (idx > 0) {
+                    setIdx(idx - 1);
+                }
+            }}>Previous</button>
+            <p>{username} --- {sign}</p>
+            <p>{caption}</p>
+        </div>
     );
 }

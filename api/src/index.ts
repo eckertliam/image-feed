@@ -3,9 +3,11 @@ import cors from 'cors';
 import multer from 'multer';
 import fs from 'node:fs';
 import path from 'node:path';
-import { makePost } from './postMngr';
+import bodyParser from 'body-parser';
+import { makePost, loadPosts, Post } from './postMngr';
 
 const upload = multer()
+const jsonParser = bodyParser.json();
 const workDir = path.join(__dirname, '../');
 export const imageDir = path.join(workDir, 'images');
 
@@ -13,17 +15,30 @@ if (!fs.existsSync(imageDir)) {
     fs.mkdirSync(imageDir);
 }
 
-require('dotenv').config({path: workDir + '/.env'});
+require('dotenv').config({ path: workDir + '/.env' });
 
 const app = express();
 app.use(cors());
 
-app.post('/api/post', upload.single('image'), async (req: any, res: any) => {
+app.post('/api/make-post', upload.single('image'), async (req: any, res: any) => {
     const fingerprint: number = Number(req.body.fingerprint);
     const imageBuffer: Buffer = req.file.buffer;
     const caption: string = req.body.caption;
-    await makePost(fingerprint, imageBuffer, caption);
+    const username: string = req.body.username;
+    await makePost(fingerprint, imageBuffer, caption, username);
     res.status(200).send('OK');
+});
+
+app.post('/api/load-posts', jsonParser, async (req: any, res: any) => {
+    if (!req.body || !req.body.fingerprint || !req.body.postCount) {
+        res.status(400).send('Bad Request');
+        return;
+    }
+    const fingerprint: number = Number(req.body.fingerprint);
+    const postCount: number = Number(req.body.postCount);
+    const posts: Post[] = await loadPosts(fingerprint, postCount);
+    // send a 200 response with the posts as JSON
+    res.status(200).json({posts});
 });
 
 app.listen(process.env.API_PORT, () => {
