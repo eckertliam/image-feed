@@ -65,8 +65,8 @@ export default function MakePost(): JSX.Element {
                     (event: React.ChangeEvent<HTMLInputElement>) => {
                         setUploadState({
                             image: uploadState.image,
-                            caption: event.target.value,
-                            username: uploadState.username
+                            caption: uploadState.caption,
+                            username: event.target.value
                         });
                     }
                 
