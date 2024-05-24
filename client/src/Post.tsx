@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "./Post.css";
+import "./style/Post.css";
 
 export interface PostProps {
     images: string[];
@@ -8,6 +8,7 @@ export interface PostProps {
     caption: string;
 }
 
+// this is the view of a post when scrolling through the feed
 
 // images encoded as base64 strings
 export default function Post({ images, username, sign, caption }: {images: string[], username: string, sign: string, caption: string}): JSX.Element {
