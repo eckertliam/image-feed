@@ -14,7 +14,6 @@
   },
   "homepage": "https://github.com/eckertliam/image-feed#readme",
   "dependencies": {
-  },
-  "devDependencies": {
+    "axios": "^1.7.2"
   }
 }

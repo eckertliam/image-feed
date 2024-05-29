@@ -1,0 +1,10 @@
+{
+  "name": "scripts",
+  "version": "0.0.0",
+  "description": "Scripts for my image feed",
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

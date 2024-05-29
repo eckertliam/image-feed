@@ -41,7 +41,7 @@ export default function Post({ images, username, sign, caption }: {images: strin
 
     return (
         <div className="post">
-            <img className="postImage" src={`data:image/png;base64,${getImage()}`} alt="post"/>
+            <img className="postImage" src={`data:image/jpeg;base64,${getImage()}`} alt="post"/>
             <p>{username} --- {sign}</p>
             <p>{caption}</p>
         </div>

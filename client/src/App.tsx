@@ -12,7 +12,7 @@ export type SetFn<T> = Dispatch<SetStateAction<T>>;
 export const SetApp = createContext<SetFn<AppState>>(() => {});
 
 export default function App(): JSX.Element {
-    const [appState, setAppState] = useState<AppState>({currentPage: <MakePost />});
+    const [appState, setAppState] = useState<AppState>({currentPage: <Feed />});
     
     return (
         <div className="app">

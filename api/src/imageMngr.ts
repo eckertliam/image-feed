@@ -6,13 +6,13 @@ import { pool } from './db';
 // saves the image to fs and returns the UUID
 export async function saveImage(imageBuffer: Buffer): Promise<string> {
     const uuid: string = crypto.randomBytes(16).toString('hex');
-    fs.writeFileSync(`${imageDir}/${uuid}.png`, imageBuffer, 'base64');
+    fs.writeFileSync(`${imageDir}/${uuid}.jpeg`, imageBuffer, 'base64');
     return uuid;
 }
 
 // delete an image from the fs
 export async function deleteImage(imageUUID: string): Promise<void> {
-    fs.unlinkSync(`${imageDir}/${imageUUID}.png`);
+    fs.unlinkSync(`${imageDir}/${imageUUID}.jpeg`);
 }
 
 // insert an image into the database
