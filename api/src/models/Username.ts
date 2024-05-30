@@ -28,7 +28,7 @@ export async function registerUsername(userId: number, username: string, postId:
 // get a username from a post id
 export async function getUsername(postId: number): Promise<Username> {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT (username_id, user_id, username) FROM usernames WHERE post_id = ?', [postId], (err: any, results: any) => {
+        pool.query('SELECT username_id, user_id, username FROM usernames WHERE post_id = ?', [postId], (err: any, results: any) => {
             if (err) {
                 reject(err);
             } else {

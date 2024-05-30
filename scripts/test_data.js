@@ -66,3 +66,9 @@ async function createPost() {
 async function initPosts(n) {
     return Promise.all(Array(n).fill().map(() => createPost()));
 }
+
+// create 10 posts
+(async () => {
+    await initPosts(10);
+    console.log('Created 10 posts');
+})();

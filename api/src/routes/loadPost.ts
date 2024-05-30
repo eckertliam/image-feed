@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
 
 
 // interface defining the response post
-export interface ResponsePost {
+interface PostResponse {
     images: string[];
     caption: string;
     username: string;
@@ -31,12 +31,12 @@ export default async function loadPost(req: any, res: any): Promise<void> {
     }));
     const usernameObj: Username = await getUsername(post.id);
     const sign: string = crypto.pbkdf2Sync(usernameObj.username, fingerprint.toString(), 100000, 16, 'sha256').toString('hex');
-    const responsePost: ResponsePost = {
+    const postResponse: PostResponse = {
         images: imageStrings,
         caption: post.caption,
         username: usernameObj.username,
         sign
     };
-    res.status(200).json(responsePost);
+    res.status(200).json(postResponse);
     console.log('Post loaded');
 }

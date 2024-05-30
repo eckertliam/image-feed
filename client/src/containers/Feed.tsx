@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import Post, {PostProps} from "../components/Post";
 import { getFingerprint, BASE_URL } from "../utils";
 
-
-
-
 interface FeedState {
     loadedPosts: PostProps[];
     idx: number;
@@ -18,20 +15,19 @@ export default function Feed(): JSX.Element {
 
     async function loadPosts(): Promise<void> {
         // send fingerprint and post count to server
-        const fingerprint = await getFingerprint();
-        const postCount = 1;
+        const fingerprint: number = await getFingerprint();
         const response = await fetch(`${BASE_URL}/load-posts`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({fingerprint, postCount})
+            body: JSON.stringify({fingerprint})
         });
         if (response.status !== 200) {
             console.log('Failed to load posts');
             return;
         }
-        const {posts} = await response.json();
+        const posts: PostProps[] = await response.json();
         setFeedState({
             loadedPosts: feedState.loadedPosts.concat(posts),
             idx: 0
