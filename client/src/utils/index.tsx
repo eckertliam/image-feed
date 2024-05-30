@@ -1,6 +1,6 @@
 import { ClientJS } from "clientjs";
 
-async function getFingerprint(): Promise<number> {
+export async function getFingerprint(): Promise<number> {
     // cheeck if fingerprint is already stored in local storage
     const storedFingerprint: null | string = localStorage.getItem('fingerprint');
     if (storedFingerprint) {
@@ -12,4 +12,4 @@ async function getFingerprint(): Promise<number> {
     return fingerprint;
 }
 
-export default getFingerprint;
+export const BASE_URL: string = import.meta.env.VITE_BASE_URL;

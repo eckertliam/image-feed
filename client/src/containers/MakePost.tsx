@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
-import { SetApp } from "./App";
-import getFingerprint from "./fingerprint";
-import "./style/MakePost.css";
+import React, { useState } from "react";
+import "../style/MakePost.css";
+import { BASE_URL, getFingerprint } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 interface UploadState {
     image: File | null;
@@ -10,12 +10,13 @@ interface UploadState {
 }
 
 export default function MakePost(): JSX.Element {
-    const setApp = useContext(SetApp);
     const [uploadState, setUploadState] = useState<UploadState>({
         image: null,
         caption: '',
         username: ''
     });
+
+    const navigate = useNavigate();
 
     (async () => {
         const preview = document.getElementById('preview');
@@ -38,17 +39,16 @@ export default function MakePost(): JSX.Element {
         formData.append('caption', uploadState.caption);
         formData.append('username', uploadState.username);
         formData.append('fingerprint', (await getFingerprint()).toString());
-        const response = await fetch('http://localhost:8080/api/make-post', {
+        const response = await fetch(`${BASE_URL}/make-post`, {
             method: 'POST',
             body: formData
         });
         if (response.status === 200) {
-            setApp({ currentPage: <h1>Upload successful</h1> });
-        } else if (response.status === 403) {
-            setApp({ currentPage: <h1>You have been banned.</h1> });
-        } else if (response.status === 404) {
-            setApp({ currentPage: <h1>Unavailable</h1> });
-        }
+            navigate('/feed');
+        }else {
+            console.error('Failed to make post');
+            navigate('/feed');
+        } 
     }
 
     return (

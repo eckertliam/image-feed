@@ -1,25 +1,19 @@
-import React, {useState, Dispatch, SetStateAction, createContext} from "react";
-import MakePost from "./MakePost";
-import Feed from "./Feed";
-import "./style/App.css";
-
-export interface AppState {
-    currentPage: JSX.Element;
-}
-
-export type SetFn<T> = Dispatch<SetStateAction<T>>;
-
-export const SetApp = createContext<SetFn<AppState>>(() => {});
+import React from "react";
+import ReactDOM from "react-dom";
+import { createBrowserRouter, Routes, Route, BrowserRouter } from "react-router-dom";
+import MakePost from "./containers/MakePost";
+import Feed from "./containers/Feed";
 
 export default function App(): JSX.Element {
-    const [appState, setAppState] = useState<AppState>({currentPage: <Feed />});
-    
-    return (
-        <div className="app">
-            <SetApp.Provider value={setAppState} >
-                <h1>Image Feed</h1>
-                {appState.currentPage}
-            </SetApp.Provider>
-        </div>
-    );
+  return (
+    <div className="app">
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Feed />} />
+                <Route path="/feed" element={<Feed />} />
+                <Route path="/make-post" element={<MakePost />} />
+            </Routes>
+        </BrowserRouter>
+    </div>
+  );
 }

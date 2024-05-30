@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "./style/Post.css";
+import "../style/Post.css";
 
 export interface PostProps {
     images: string[];

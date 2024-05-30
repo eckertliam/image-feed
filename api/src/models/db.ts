@@ -1,7 +1,9 @@
 import mysql from 'mysql2';
 require('dotenv').config();
 
-export const pool: mysql.Pool = mysql.createPool({
+// provides simple connection pooling
+
+const pool: mysql.Pool = mysql.createPool({
     port: Number(process.env.DB_PORT),
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -10,3 +12,4 @@ export const pool: mysql.Pool = mysql.createPool({
     connectionLimit: 10
 });
 
+export default pool;

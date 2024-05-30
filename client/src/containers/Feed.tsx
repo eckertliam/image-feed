@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
-import Post, {PostProps} from "./Post";
-import getFingerprint from "./fingerprint";
+import React, { useState } from "react";
+import Post, {PostProps} from "../components/Post";
+import { getFingerprint, BASE_URL } from "../utils";
+
 
 
 
@@ -19,7 +20,7 @@ export default function Feed(): JSX.Element {
         // send fingerprint and post count to server
         const fingerprint = await getFingerprint();
         const postCount = 1;
-        const response = await fetch('http://localhost:8080/api/load-posts', {
+        const response = await fetch(`${BASE_URL}/load-posts`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
