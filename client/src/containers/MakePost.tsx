@@ -44,11 +44,10 @@ export default function MakePost(): JSX.Element {
             body: formData
         });
         if (response.status === 200) {
-            navigate('/feed');
-        }else {
+            console.log('Post made');
+        }else{
             console.error('Failed to make post');
-            navigate('/feed');
-        } 
+        }
     }
 
     return (

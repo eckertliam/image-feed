@@ -4,7 +4,7 @@ export interface Post {
     id: number;
     userId: number;
     caption: string;
-    createdAt: Date;
+    createdAt?: string;
 }
 
 
@@ -19,7 +19,6 @@ export async function newPost(userId: number, caption: string): Promise<Post> {
                     id: results.insertId,
                     userId,
                     caption,
-                    createdAt: results[0].created_at
                 });
             }
         });

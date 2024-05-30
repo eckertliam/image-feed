@@ -9,7 +9,7 @@ export default function App(): JSX.Element {
     <div className="app">
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Feed />} />
+                <Route path="/" element={<MakePost />} />
                 <Route path="/feed" element={<Feed />} />
                 <Route path="/make-post" element={<MakePost />} />
             </Routes>
