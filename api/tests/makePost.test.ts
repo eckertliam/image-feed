@@ -2,7 +2,7 @@ import makePost from "../src/routes/makePost";
 import { User, registerUser } from "../src/models/User";
 import { Post, newPost } from "../src/models/Post";
 import { registerUsername } from "../src/models/Username";
-import { newImage } from "../src/models/Image"; 
+import { newImage } from "../src/models/Image";
 import { describe, test, expect, jest, beforeEach, afterAll } from "@jest/globals"
 
 jest.mock("../src/models/User");
@@ -28,8 +28,15 @@ describe("makePost", () => {
             status: jest.fn().mockReturnThis(),
             send: jest.fn().mockReturnThis()
         };
-        (registerUser as jest.Mock).mockClear();
-        (newPost as jest.Mock).mockClear();
+        (registerUser as jest.Mock<typeof registerUser>).mockResolvedValueOnce({ 
+            id: 1, 
+            fingerprint: 123
+        });
+        (newPost as jest.Mock<typeof newPost>).mockResolvedValueOnce({
+            id: 1,
+            userId: 1,
+            caption: "caption"
+        });
         (registerUsername as jest.Mock).mockClear();
         (newImage as jest.Mock).mockClear();
     });
@@ -61,7 +68,13 @@ describe("makePost", () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.send).toHaveBeenCalledWith("Bad request missing username");
     });
-    
+
+    test("make post", async () => {
+        await makePost(req, res);
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.send).toHaveBeenCalledWith("OK");
+    });
+
     afterAll(() => {
         jest.restoreAllMocks();
     });

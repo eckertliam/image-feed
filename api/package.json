@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "npm run build && build/index.js",
     "dev": "npx nodemon",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "author": "Liam Eckert",
   "dependencies": {
