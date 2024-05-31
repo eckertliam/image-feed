@@ -14,7 +14,6 @@ interface PostResponse {
 
 
 export default async function loadPost(req: any, res: any): Promise<void> {
-    console.log('Received a request to load a post');
     if (!req.body) {
         res.status(400).send('Bad request missing body');
         console.error('Bad request missing body');
@@ -30,7 +29,7 @@ export default async function loadPost(req: any, res: any): Promise<void> {
         return await imageToBase64(image.imageName);
     }));
     const usernameObj: Username = await getUsername(post.id);
-    const sign: string = crypto.pbkdf2Sync(usernameObj.username, fingerprint.toString(), 100000, 16, 'sha256').toString('hex');
+    const sign: string = crypto.pbkdf2Sync(usernameObj.username, fingerprint.toString(), 100000, 4, 'sha256').toString('hex');
     const postResponse: PostResponse = {
         images: imageStrings,
         caption: post.caption,
@@ -38,5 +37,4 @@ export default async function loadPost(req: any, res: any): Promise<void> {
         sign
     };
     res.status(200).json(postResponse);
-    console.log('Post loaded');
 }
