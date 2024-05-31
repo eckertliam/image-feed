@@ -55,6 +55,13 @@ describe("makePost", () => {
         expect(res.send).toHaveBeenCalledWith("Bad request missing buffer");
     });
 
+    test("missing username", async () => {
+        delete req.body.username;
+        await makePost(req, res);
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.send).toHaveBeenCalledWith("Bad request missing username");
+    });
+    
     afterAll(() => {
         jest.restoreAllMocks();
     });

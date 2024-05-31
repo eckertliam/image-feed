@@ -12,19 +12,21 @@ const jsonParser = bodyParser.json();
 const workDir = path.join(__dirname, '../');
 export const imageDir = path.join(workDir, 'images');
 
-if (!fs.existsSync(imageDir)) {
-    fs.mkdirSync(imageDir);
-}
-
 require('dotenv').config({ path: workDir + '/.env' });
 
-export const app = express();
-app.use(cors());
+if (require.main === module) {
+    if (!fs.existsSync(imageDir)) {
+        fs.mkdirSync(imageDir);
+    }
 
-app.post('/api/make-post', upload.single('image'), makePost);
+    const app = express();
+    app.use(cors());
 
-app.post('/api/load-posts', jsonParser, loadPost);
+    app.post('/api/make-post', upload.single('image'), makePost);
 
-app.listen(process.env.API_PORT, () => {
-    console.log(`Server is running on port ${process.env.API_PORT}`);
-});
+    app.post('/api/load-posts', jsonParser, loadPost);
+
+    app.listen(process.env.API_PORT, () => {
+        console.log(`Server is running on port ${process.env.API_PORT}`);
+    });
+}
