@@ -1,2 +1,3 @@
 # image-feed
-An anonymous image feed 
+
+An image feed made for learning purposes
