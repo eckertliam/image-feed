@@ -27,7 +27,7 @@ CREATE TABLE images (
     INDEX (post_id)
 );
 
-CREATE TABLE likes (
+CREATE TABLE post_likes (
     post_id INT NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
@@ -44,6 +44,14 @@ CREATE TABLE comments (
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     INDEX (post_id)
+);
+
+CREATE TABLE comment_likes (
+    comment_id INT NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    PRIMARY KEY (comment_id, user_id)
 );
 
 CREATE TABLE tags (
@@ -91,4 +99,13 @@ CREATE TABLE reported_comments (
     comment_id INT NOT NULL,
     FOREIGN KEY (reporter_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE,
+);
+
+CREATE TABLE sessions (
+    id AUTO AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX (user_id)
 );
