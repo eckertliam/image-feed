@@ -4,21 +4,26 @@ import {Session, User} from "@prisma/client";
 import {userInputSchema, UserSchema} from "../schemas/user.schema";
 import getSession from "./session.service";
 import {hashPassword} from "./password.service";
-
-// registerUser - returns user if registration occurs successfully otherwise throws err
-export default async function registerService(input: any): Promise<Session> {
+export default async function loginService(input: any): Promise<Session | string> {
     try {
         let validatedInput: UserSchema = userInputSchema.parse(input);
         validatedInput.password = await hashPassword(validatedInput.password);
-        const newUser: User = await prisma.user.create({
-            data: validatedInput,
+        const user: User | null = await prisma.user.findUnique({
+            where: {
+                username: validatedInput.username,
+                password: validatedInput.password,
+            }
         });
-        return await getSession(newUser);
+        if (user) {
+            return await getSession(user);
+        } else {
+            return "No user found";
+        }
     } catch (e) {
         if (e instanceof z.ZodError) {
             console.error("Validation failed with error", e);
             throw new Error("Invalid input data for register request");
-        }else{
+        } else {
             throw e;
         }
     }
