@@ -1,12 +1,15 @@
 import {z} from "zod";
 import prisma from "../prisma";
 import {Session, User} from "@prisma/client";
-import {userInputSchema, UserSchema} from "../schemas/user.schema";
+import { LoginSchema, loginInputSchema } from "../schemas/login.schema";
 import getSession from "./session.service";
 import {hashPassword} from "./password.service";
+
+// Validates input, retrieves user from database , and returns session.
+// If no user is found return "No user found"
 export default async function loginService(input: any): Promise<Session | string> {
     try {
-        let validatedInput: UserSchema = userInputSchema.parse(input);
+        let validatedInput: LoginSchema = loginInputSchema.parse(input);
         validatedInput.password = await hashPassword(validatedInput.password);
         const user: User | null = await prisma.user.findUnique({
             where: {

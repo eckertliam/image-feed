@@ -1,7 +1,9 @@
 import { z } from 'zod';
 
-// userInputSchema - used to validate user input for logins and registrations
-export const userInputSchema = z.object({
+// TODO: Redo the schema to require the password to be input twice ensuring a match
+
+/** A schema describing user register input */
+export const registerInputSchema = z.object({
     username: z.string({
         required_error: "Username is required",
     }),
@@ -13,5 +15,6 @@ export const userInputSchema = z.object({
     }).min(6, "Password must be at least 6 characters"),
 });
 
-// UserSchema - the shape of user login and register data received over the wire
-export type UserSchema = z.infer<typeof userInputSchema>;
+
+/** Describes the schema of user register data sent over the wire */
+export type RegisterSchema = z.infer<typeof registerInputSchema>;

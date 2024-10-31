@@ -1,14 +1,14 @@
 import {z} from "zod";
 import prisma from "../prisma";
 import {Session, User} from "@prisma/client";
-import {userInputSchema, UserSchema} from "../schemas/user.schema";
+import {registerInputSchema, RegisterSchema} from "../schemas/register.schema";
 import getSession from "./session.service";
 import {hashPassword} from "./password.service";
 
 // registerUser - returns user if registration occurs successfully otherwise throws err
 export default async function registerService(input: any): Promise<Session> {
     try {
-        let validatedInput: UserSchema = userInputSchema.parse(input);
+        let validatedInput: RegisterSchema = registerInputSchema.parse(input);
         validatedInput.password = await hashPassword(validatedInput.password);
         const newUser: User = await prisma.user.create({
             data: validatedInput,
